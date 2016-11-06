@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+{% extends 'circleofcare/base.html' %}
+{% load static %}
+
+{% block header_title %}Physiological Log{% endblock %}
+{% block header_links %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/awesome-bootstrap-checkbox.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block physio_href %}javascript:void(0){% endblock %}
+{% block physio_tab %}active{% endblock %}
+
+{% block body_block %}
+    <div class="row title" id="physiological">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1>Physiological Log</h1>
+        </div>
+    </div>
+
+    <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0" data-wrap="false">
+        <form role="form" id="physio-form" action="{% url 'circleofcare:physiological_log' %}" method="post">
+            {% csrf_token %}
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="container-fluid item active citem" id="first-slide">
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 physiological">
+                        <h2>How does your body feel?</h2>
+
+                        <div class="checkbox">
+                            {{ form.tingling }}
+                            <label for="{{ form.tingling.id_for_label }}">Tingling in extremities</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.muscle_spasms }}
+                            <label for="{{ form.muscle_spasms.id_for_label }}">Muscle spasms</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.dizziness }}
+                            <label for="{{ form.dizziness.id_for_label }}">Dizziness</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.muscle_weakness }}
+                            <label for="{{ form.muscle_weakness.id_for_label }}">Muscle weakness</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.blurry_vision }}
+                            <label for="{{ form.blurry_vision.id_for_label }}">Blurry vision</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.bladder_dysfunc }}
+                            <label for="{{ form.bladder_dysfunc.id_for_label }}">Bladder dysfunction</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.bowel_dysfunc }}
+                            <label for="{{ form.bowel_dysfunc.id_for_label }}">Bowel dysfunction</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.pain_bool }}
+                            <label for="{{ form.pain_bool.id_for_label }}">Pain</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="{{ form.other_issues.id_for_label }}">
+                            <label for="{{ form.other_issues.id_for_label }}">
+                                {{ form.other_issues }}
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 physiological">
+                        <h2>Describe Your Pain</h2>
+                        <h3>Only answer this if you are in pain...</h3>
+
+                        <div class="form-group">
+                            <label for="{{ form.pain_rating.id_for_label }}"><h4>Rate your pain on a scale of 1 to 10, 1
+                                being a slight pinch and 10 being
+                                absolutely unbearable</h4></label>
+                            <select class="form-control" id="{{ form.pain_rating.id_for_label }}" name="pain_rating">
+                                <option disabled selected value></option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.pain_location.id_for_label }}"><h3>Where is your pain?</h3></label>
+                            <textarea class="form-control" rows="5" name="pain_location"
+                                      id="{{ form.pain_location.id_for_label }}"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid item citem" id="second-slide">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 physiological">
+                        <h2>Personal Wellness Check</h2>
+                        <h3>Please select all that apply.</h3>
+                        <div class="checkbox">
+                            {{ form.depression }}
+                            <label for="{{ form.depression.id_for_label }}">Have you felt down, depressed or
+                                hopeless?</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.lack_interest }}
+                            <label for="{{ form.lack_interest.id_for_label }}">Have you had little interest in
+                                doing things?</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 physiological">
+                        <h2>How are you feeling?</h2>
+                        <h3>Optional</h3>
+
+                        <div class="form-group">
+                            <label for="{{ form.feelings.id_for_label }}"><h3>Feel free to say anything about how you
+                                are
+                                doing, this information is for you and you only.</h3></label>
+                            <textarea class="form-control" rows="5" name="feelings"
+                                      id="{{ form.feelings.id_for_label }}"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Controls -->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 arrows">
+                <a id="prev-arrow" class="left carousel-control hidden" href="#carousel" data-slide="prev"><h3
+                        id="prev-text">
+                    Prev
+                    <i class="fa fa-chevron-left"></i></h3></a>
+                <a id="next-arrow" class="right carousel-control" href="#carousel" data-slide="next">
+                    <h3 id="next-text"> Next <i class="fa fa-chevron-right"></i></h3></a>
+                <a id="submit-check" class="right carousel-control hidden" href="javascript:void(0)"
+                   data-slide="next">
+                    <h3> Submit <i class="fa fa-check-circle"></i></h3></a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js_scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static 'circleofcare/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'circleofcare/js/physiological_log.js' %}"></script>
+    <script src="{% static 'circleofcare/js/carousel_script.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+{% endblock %}

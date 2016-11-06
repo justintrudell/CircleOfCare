@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load form_extras %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/registration-form.css' %}">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<!-- Top content -->
+<div class="top-content">
+
+    <div class="inner-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 text">
+                    <h1><strong>Circle of Care</strong> Registration</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3 form-box">
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3>Welcome to Circle of Care!</h3>
+                            <p>Please fill out the form below to create an account.</p>
+                        </div>
+                        <div class="form-top-right">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <form id="user_form" role="form" action="{% url 'circleofcare:register' %}" method="post"
+                              class="login-form">
+                            {% csrf_token %}
+                            {% for field in user_form %}
+                                <div class="form-group">
+                                    <label class="registration-label"
+                                           for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    <input type="{{ field|field_type }}" name="{{ field.html_name }}" placeholder="{{ field.help_text }}"
+                                           class="form-control" id="{{ field.id_for_label }}">
+                                </div>
+                            {% endfor %}
+                            <br>
+                            <h4>Additional Details:</h4>
+                            {% for field in profile_form %}
+                                <div class="form-group">
+                                    <label class="registration-label"
+                                           for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    <input type="text" name="{{ field.html_name }}" placeholder="{{ field.help_text }}"
+                                           class="form-control" id="{{ field.id_for_label }}">
+                                </div>
+                            {% endfor %}
+                            <button id="register-btn" type="submit" class="btn">Complete Registration</button>
+                            <button onclick="location.href='{% url 'circleofcare:login' %}'"
+                                    id="login-btn" class="btn">I already have an account.
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{% static 'circleofcare/js/bootstrap.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+<script src="{% static 'circleofcare/js/register.js' %}"></script>
+
+<script>
+    jQuery(document).ready(function () {
+
+        $.backstretch("{% static 'circleofcare/images/1.jpg' %}");
+    });
+</script>
+
+</body>
+</html>

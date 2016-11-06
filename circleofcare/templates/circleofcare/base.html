@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block header_title %}{% endblock %}</title>
+    {% block header_links %}{% endblock %}
+</head>
+<body>
+
+<!--Navbar-->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'circleofcare:index' %}">
+                <img class="img-responsive" src="{% static 'circleofcare/images/logo.png' %}" alt="CircleOfCare"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="{% block home_tab %}inactive{% endblock %}">
+                    <a href="{% block home_href %}{% url 'circleofcare:index' %}{% endblock %}"><i class="fa fa-home"></i> Home</a></li>
+                <li class="{% block physio_tab %}inactive{% endblock %}">
+                    <a href="{% block physio_href %}{% url 'circleofcare:physiological_log' %}{% endblock %}"><i class="fa fa-heart"></i> Physiological Log</a></li>
+                <li class="{% block functional_tab %}inactive{% endblock %}">
+                    <a href="{% block functional_href %}{% url 'circleofcare:functional_log' %}{% endblock %}"><i class="fa fa-briefcase"></i> Functional Log</a></li>
+                <li class="{% block physical_tab %}inactive{% endblock %}">
+                    <a href="{% block physical_href %}{% url 'circleofcare:physical_activity_log' %}{% endblock %}"><i class="fa fa-bicycle"></i> Physical Activity</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="{% block profile_tab %}inactive{% endblock %}">
+                    <a href="{% block profile_href %}{% url 'circleofcare:user_profile' %}{% endblock %}"><i class="fa fa-user"></i> Profile</a></li>
+                <li class="{% block summary_tab %}inactive{% endblock %}">
+                    <a href="{% block summary_href %}{% url 'circleofcare:user_summary' %}{% endblock %}"><i class="fa fa-list-alt"></i> Summary</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'circleofcare:logout' %}">Log Out</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{% block body_block %}{% endblock %}
+
+{% block js_scripts %}{% endblock %}
+
+</body>
+</html>

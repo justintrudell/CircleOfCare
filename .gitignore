@@ -1,0 +1,8 @@
+FunctionalApps/settings.py
+
+circleofcare/migrations/
+
+*.idea
+
+.DS_Store
+*/.DS_Store

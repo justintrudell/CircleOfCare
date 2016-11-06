@@ -1,0 +1,127 @@
+{% extends 'circleofcare/base.html' %}
+{% load static %}
+
+{% block header_title %}Profile{% endblock %}
+{% block header_links %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/responsive.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block profile_href %}javascript:void(0){% endblock %}
+{% block profile_tab %}active{% endblock %}
+
+{% block body_block %}
+   <div class="row title" id="profile">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<h1>Profile</h1>
+		</div>
+	</div>
+
+	<div class="profile container-fluid">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 arrows">
+			<a href="#"><h3>Save <i class="fa fa-chevron-save"></i> </h3></a>
+			<a href="#"><h3><i class="fa fa-edit"></i> Edit </h3></a>
+		</div>
+		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+			<h1 id="center"><i class="fa fa-user fa-5x"></i></h1>
+			<h2>{{ user_profile.get_full_name }}</h2>
+		</div>
+		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 ">
+			<table class="table" id="special">
+			    <thead>
+			      <tr>
+			        <th colspan="2">Personal Details</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      <tr>
+			        <td>Age</td>
+			        <td>{{ custom_profile.age }}</td>
+			      </tr>
+			      <tr>
+			        <td>Address</td>
+			        <td>{{ custom_profile.address }}</td>
+			      </tr>
+			      <tr>
+			        <td>Phone Number</td>
+			        <td>{{ custom_profile.phone_number }}</td>
+			      </tr>
+			      <tr>
+			        <td>Email</td>
+			        <td>{{ user_profile.email }}</td>
+			      </tr>
+			      <tr>
+			        <td>Diagnosis</td>
+			        <td>{{ custom_profile.diagnosis }}</td>
+			      </tr>
+			    </tbody>
+			  </table>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
+			<table class="table" id="special">
+			    <thead>
+			      <tr>
+			        <th colspan="2">Emergency Contact</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      <tr>
+			        <td>Name</td>
+			        <td>{{ custom_profile.emergency_name }}</td>
+			      </tr>
+			      <tr>
+			        <td>Relation</td>
+			        <td>{{ custom_profile.emergency_relationship }}</td>
+			      </tr>
+			      <tr>
+			        <td>Phone Number</td>
+			        <td>{{ custom_profile.emergency_phone_number }}</td>
+			      </tr>
+			      <tr>
+			        <td>Email</td>
+			        <td>{{ custom_profile.emergency_email }}</td>
+			      </tr>
+			    </tbody>
+			  </table>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<h3>Medications</h3>
+			<table class="table">
+			    <thead>
+			      <tr>
+			        <th>Name</th>
+					<th>Dosage</th>
+					<th>Instructions</th>
+					<th>Warnings</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      <tr>
+			        <td>teriflunomide (Aubagio)</td>
+			        <td>7 mg</td>
+					<td>AM</td>
+					<td>Don't take if pregnant</td>
+			      </tr>
+			      <tr>
+			        <td>fingolimod (Gilenya)</td>
+			        <td>1.5 mg</td>
+			        <td>Twice a day after a meal</td>
+			        <td>May cause diarrhea</td>
+			      </tr>
+			    </tbody>
+			  </table>
+		</div>
+	</div>
+{% endblock %}
+
+{% block js_scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static 'circleofcare/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+{% endblock %}
+

@@ -1,0 +1,269 @@
+
+.navbar {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    background-color: #f8f8f8;
+    border-radius: 0;
+    margin: 0;
+}
+
+.navbar-nav li a {
+    line-height: 60px;
+    height: 60px;
+    padding-top: 0;
+}
+
+.navbar-brand img {
+    margin-top: -15px;
+    height: 60px;
+    width: auto;
+}
+
+.carousel .btn {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    background-color: #ee3f34;
+}
+
+#login {
+    background-color: #E0E0E0;
+}
+
+.login h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    text-align: center;
+}
+
+.login input, button {
+    margin: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}
+
+.login button {
+    width: 30%;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.functions h1, .profile h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+}
+
+.functions h2, .title h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 300;
+}
+
+.functions p {
+    text-align: center;
+}
+
+.functions div, .title div {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.functions a, .export a {
+    color: #000000;
+}
+
+.functions a:hover, .export a:hover {
+    color: #10B2E8;
+}
+
+.title div {
+    background-color: #E0E0E0;
+}
+
+#physiological div {
+    background-color: #A62929;
+}
+
+#physiological h1, #functional h1, #profile h1, #physical h1, #summary h1 {
+    color: #FFFFFF;
+    font-weight: 400;
+}
+
+.physiological h2, .functional h2 {
+    text-align: left;
+    font-weight: 400;
+}
+
+.profile h2, .functions h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    vertical-align: middle;
+    font-weight: 400;
+}
+
+.physiological .checkbox, .functional .checkbox, .physical .checkbox {
+    padding-top: 0.3em;
+    vertical-align: middle;
+}
+
+.physiological .checkbox label, .functional .checkbox label, .physical .checkbox label,
+.form-group .checkbox label, .radio, .functions .checkbox label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 200;
+    vertical-align: middle;
+}
+
+input[type=checkbox], input[type=radio] {
+    margin-top: 12px;
+}
+
+#AHH input[type=checkbox] {
+    margin-top: 0;
+}
+
+.arrows div {
+    background: #E0E0E0;
+}
+
+.arrows a {
+    float: right;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #10B2E8;
+    display: inline-block;
+    padding-right: 40px;
+}
+
+#functional div {
+    background-color: #0FBA92;
+}
+
+#profile div {
+    background-color: #332F82;
+}
+
+.profile h2 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.profile h1 {
+    font-size: 30px;
+}
+
+.table {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.profile h3, #special {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+#special.table > tbody > tr > td {
+    border: none;
+}
+
+#physical div {
+    background-color: #6A3B82;
+}
+
+#summary div {
+    background-color: #4AAAB5;
+}
+
+.export div {
+    background-color: #E0E0E0;
+}
+
+.functions .checkbox label {
+    line-height: 50%;
+}
+
+#AHH h1 {
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+}
+
+#AHH label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+#AHH div {
+    padding: 10px;
+}
+
+.btn {
+    background-color: #CCCCCC;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.btn a:hover {
+    text-decoration: none;
+    color: #000000;
+}
+
+.functions h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+}
+
+.functions h2 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 300;
+}
+
+.export a, .export h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+}
+
+#summaryGraph img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#removeBottom {
+    background-color: #E0E0E0;
+}
+
+#center {
+    text-align: center;
+}
+
+.next-button {
+
+}
+
+.citem {
+    width: auto;
+    height: 32em;
+    max-height: 32em;
+}

@@ -1,0 +1,122 @@
+{% extends 'circleofcare/base.html' %}
+{% load static %}
+
+{% block header_title %}Functional Log{% endblock %}
+{% block header_links %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'circleofcare/css/awesome-bootstrap-checkbox.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block functional_href %}javascript:void(0){% endblock %}
+{% block functional_tab %}active{% endblock %}
+
+{% block body_block %}
+    <div class="row title" id="functional">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1>Functional Log</h1>
+        </div>
+    </div>
+
+    <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0" data-wrap="false">
+        <form role="form" id="functional-form" action="{% url 'circleofcare:functional_log' %}" method="post">
+            {% csrf_token %}
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="container-fluid item active citem" id="first-slide">
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 functional">
+                        <h2>Did you struggle with any of the following physical tasks?</h2>
+
+                        <div class="checkbox">
+                            {{ form.changing_clothes }}
+                            <label for="{{ form.changing_clothes.id_for_label }}">Changing clothes</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.out_of_bed }}
+                            <label for="{{ form.out_of_bed.id_for_label }}">Getting out of bed</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.climbing_stairs }}
+                            <label for="{{ form.climbing_stairs.id_for_label }}">Going up/down stairs</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.cooking }}
+                            <label for="{{ form.cooking.id_for_label }}">Cooking</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.driving }}
+                            <label for="{{ form.driving.id_for_label }}">Driving</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.walking }}
+                            <label for="{{ form.walking.id_for_label }}">Walking</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.writing }}
+                            <label for="{{ form.writing.id_for_label }}">Writing</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="{{ form.other_issues_physical.id_for_label }}">
+                            <label for="{{ form.other_issues_physical.id_for_label }}">
+                                {{ form.other_issues_physical }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid item citem" id="second-slide">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 functional">
+                        <h2>Did you struggle with any of the following cognitive tasks?</h2>
+                        <div class="checkbox">
+                            {{ form.learning_new_info }}
+                            <label for="{{ form.learning_new_info.id_for_label }}">Learning new information</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.remembering_tasks }}
+                            <label for="{{ form.remembering_tasks.id_for_label }}">Remembering tasks</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.loss_for_words }}
+                            <label for="{{ form.loss_for_words.id_for_label }}">Aphasia (Loss for words)</label>
+                        </div>
+                        <div class="checkbox">
+                            {{ form.concentrating }}
+                            <label for="{{ form.concentrating.id_for_label }}">Concentrating</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="{{ form.other_issues_cognitive.id_for_label }}">
+                            <label for="{{ form.other_issues_cognitive.id_for_label }}">
+                                {{ form.other_issues_cognitive }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Controls -->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 arrows">
+                <a id="prev-arrow" class="left carousel-control hidden" href="#carousel" data-slide="prev">
+                    <h3
+                            id="prev-text">
+                        Prev
+                        <i class="fa fa-chevron-left"></i></h3></a>
+                <a id="next-arrow" class="right carousel-control" href="#carousel" data-slide="next">
+                    <h3 id="next-text"> Next <i class="fa fa-chevron-right"></i></h3></a>
+                <a id="submit-check" class="right carousel-control hidden" href="javascript:void(0)"
+                   data-slide="next">
+                    <h3> Submit <i class="fa fa-check-circle"></i></h3></a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js_scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static 'circleofcare/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'circleofcare/js/functional_log.js' %}"></script>
+    <script src="{% static 'circleofcare/js/carousel_script.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+{% endblock %}
