@@ -90,7 +90,10 @@ def user_profile(request):
     else:
         user_profile = request.user
         custom_profile = UserProfile.objects.get(user=request.user)
-    return render(request, 'circleofcare/user_profile.html', {'user_profile': user_profile, 'custom_profile': custom_profile})
+        user_update = CustomUserCreationForm()
+        custom_update = UserProfileForm()
+    return render(request, 'circleofcare/user_profile.html', {'user_profile': user_profile, 'custom_profile': custom_profile,
+                                                              'user_update': user_update, 'custom_update': custom_update})
 
 
 @login_required
@@ -119,6 +122,9 @@ def register(request):
             # Now sort out the UserProfile instance.
             profile = profile_form.save(commit=False)
             profile.user = user
+            if not profile.age:
+                profile.age = 0
+
             # Now we save the UserProfile model instance.
             profile.save()
             # Log the user in
@@ -127,7 +133,6 @@ def register(request):
             login(request, new_user)
             return HttpResponseRedirect(reverse('circleofcare:index'))
         else:
-            # Invalid form or forms - print problems to the terminal.
             print(user_form.errors, profile_form.errors)
     else:
         user_form = CustomUserCreationForm()

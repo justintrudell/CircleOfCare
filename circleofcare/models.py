@@ -100,9 +100,9 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(_('email address'), max_length=254, unique=True, db_index=True)
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=30, blank=True)
+    email = models.EmailField(_('email address'), max_length=254, unique=True, db_index=True, default='')
+    first_name = models.CharField(_('first name'), max_length=30, blank=True, default='')
+    last_name = models.CharField(_('last name'), max_length=30, blank=True, default='')
     is_staff = models.BooleanField(_('staff status'), default=False,
         help_text=_('Designates whether the user can log into this admin '
                     'site.'))
@@ -144,16 +144,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    age = models.PositiveIntegerField(validators=[MaxValueValidator(120)])
-    address = models.CharField(max_length=80, blank=True)
+    age = models.PositiveIntegerField(validators=[MaxValueValidator(120)], blank=True, default='')
+    address = models.CharField(max_length=80, blank=True, default='')
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                  message="Phone number must be entered in the format: '999999999'.")
-    phone_number = models.CharField(max_length=15, validators=[phone_regex], blank=True)
-    diagnosis = models.CharField(max_length=40, blank=True)
-    emergency_name = models.CharField(max_length=30, blank=True)
-    emergency_relationship = models.CharField(max_length=15, blank=True)
-    emergency_phone_number = models.CharField(max_length=15, validators=[phone_regex], blank=True)
-    emergency_email = models.CharField(max_length=40, validators=[EmailValidator])
+    phone_number = models.CharField(max_length=15, validators=[phone_regex], blank=True, default='')
+    diagnosis = models.CharField(max_length=40, blank=True, default='')
+    emergency_relationship = models.CharField(max_length=15, blank=True, default='')
+    emergency_phone_number = models.CharField(max_length=15, validators=[phone_regex], blank=True, default='')
+    emergency_email = models.CharField(max_length=40, validators=[EmailValidator], blank=True, default='')
+    emergency_name = models.CharField(max_length=30, blank=True, default='')
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
