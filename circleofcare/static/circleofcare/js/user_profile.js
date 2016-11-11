@@ -1,20 +1,32 @@
 jQuery(document).ready(function () {
-        // Form validation
-        $('.login-form input[type="text"], .login-form input[type="password"], .login-form textarea').on('focus', function () {
-            $(this).removeClass('input-error');
+
+    $(document).on("click", '#edit-button', function () {
+        $(this).attr('id', "save-button");
+        $(this).find('span').text(" Save ");
+        $(this).find('i').removeClass('fa-edit');
+        $(this).find('i').addClass('fa-save');
+
+        $(".edit").each(function () {
+            $(this).removeClass('hidden');
         });
 
-        $('.login-form').on('submit', function (e) {
-
-            $(this).find('input[type="text"], input[type="password"], textarea').each(function () {
-                if ($(this).val() == "") {
-                    e.preventDefault();
-                    $(this).addClass('input-error');
-                }
-                else {
-                    $(this).removeClass('input-error');
-                }
-            });
-
+        $(".view").each(function () {
+            $(this).addClass('hidden');
         });
     });
+
+    $(document).on('click', '#save-button', function () {
+        $(this).attr('id', "edit-button");
+        $(this).find('span').text(" Edit ");
+        $(this).find('i').removeClass('fa-save');
+        $(this).find('i').addClass('fa-edit');
+
+        $(".edit").each(function () {
+            $(this).addClass('hidden');
+        });
+
+        $(".view").each(function () {
+            $(this).removeClass('hidden');
+        });
+    });
+});

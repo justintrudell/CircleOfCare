@@ -24,8 +24,7 @@
 
 	<div class="profile container-fluid">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 arrows">
-			<a href="#"><h3>Save <i class="fa fa-chevron-save"></i> </h3></a>
-			<a href="#"><h3><i class="fa fa-edit"></i> Edit </h3></a>
+			<a class="profile-edit-save" id="edit-button" href="javascript:void(0)"><i class="fa fa-edit"></i><span> Edit </span></a>
 		</div>
 		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 			<h1 id="center"><i class="fa fa-user fa-5x"></i></h1>
@@ -39,25 +38,30 @@
 			      </tr>
 			    </thead>
 			    <tbody>
+                  <tr>
+			        <td>Email</td>
+			        <td>{{ user_profile.email }}</td>
+			      </tr>
 			      <tr>
 			        <td>Age</td>
 			        <td class="view">{{ custom_profile.age }}</td>
+                    <td class="edit hidden">{{ custom_update.age }}</td>
 			      </tr>
 			      <tr>
 			        <td>Address</td>
 			        <td class="view">{{ custom_profile.address }}</td>
+                    <td class="edit hidden">{{ custom_update.address }}</td>
 			      </tr>
 			      <tr>
 			        <td>Phone Number</td>
 			        <td class="view">{{ custom_profile.phone_number }}</td>
+                    <td class="edit hidden">{{ custom_update.phone_number }}</td>
 			      </tr>
-			      <tr>
-			        <td>Email</td>
-			        <td class="view">{{ user_profile.email }}</td>
-			      </tr>
+
 			      <tr>
 			        <td>Diagnosis</td>
 			        <td class="view">{{ custom_profile.diagnosis }}</td>
+                    <td class="edit hidden">{{ custom_update.diagnosis }}</td>
 			      </tr>
 			    </tbody>
 			  </table>
@@ -72,19 +76,23 @@
 			    <tbody>
 			      <tr>
 			        <td>Name</td>
-			        <td>{{ custom_profile.emergency_name }}</td>
+			        <td class="view">{{ custom_profile.emergency_name }}</td>
+                    <td class="edit hidden">{{ custom_update.emergency_name }}</td>
 			      </tr>
 			      <tr>
 			        <td>Relation</td>
-			        <td>{{ custom_profile.emergency_relationship }}</td>
+			        <td class="view">{{ custom_profile.emergency_relationship }}</td>
+                    <td class="edit hidden">{{ custom_update.emergency_relationship }}</td>
 			      </tr>
 			      <tr>
 			        <td>Phone Number</td>
-			        <td>{{ custom_profile.emergency_phone_number }}</td>
+			        <td class="view">{{ custom_profile.emergency_phone_number }}</td>
+                    <td class="edit hidden">{{ custom_update.emergency_phone_number }}</td>
 			      </tr>
 			      <tr>
-			        <td>Email</td>
-			        <td>{{ custom_profile.emergency_email }}</td>
+			        <td >Email</td>
+			        <td class="view">{{ custom_profile.emergency_email }}</td>
+                    <td class="edit hidden">{{ custom_update.emergency_email }}</td>
 			      </tr>
 			    </tbody>
 			  </table>

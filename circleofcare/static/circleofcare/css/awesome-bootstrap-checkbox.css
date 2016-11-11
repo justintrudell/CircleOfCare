@@ -14,7 +14,9 @@
   width: 17px;
   height: 17px;
   left: 0;
+  top: 50%;
   margin-left: -20px;
+  margin-top: -9px;
   border: 1px solid #cccccc;
   border-radius: 3px;
   background-color: #fff;
@@ -28,8 +30,9 @@
   width: 16px;
   height: 16px;
   left: 0;
-  top: 0;
+  top: 50%;
   margin-left: -20px;
+  margin-top: -9px;
   padding-left: 3px;
   padding-top: 1px;
   font-size: 11px;
