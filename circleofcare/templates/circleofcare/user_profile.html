@@ -16,115 +16,118 @@
 {% block profile_tab %}active{% endblock %}
 
 {% block body_block %}
-   <div class="row title" id="profile">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<h1>Profile</h1>
-		</div>
-	</div>
+    <div class="row title" id="profile">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1>Profile</h1>
+        </div>
+    </div>
 
-	<div class="profile container-fluid">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 arrows">
-			<a class="profile-edit-save" id="edit-button" href="javascript:void(0)"><i class="fa fa-edit"></i><span> Edit </span></a>
-		</div>
-		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-			<h1 id="center"><i class="fa fa-user fa-5x"></i></h1>
-			<h2>{{ user_profile.get_full_name }}</h2>
-		</div>
-		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 ">
-			<table class="table" id="special">
-			    <thead>
-			      <tr>
-			        <th colspan="2">Personal Details</th>
-			      </tr>
-			    </thead>
-			    <tbody>
-                  <tr>
-			        <td>Email</td>
-			        <td>{{ user_profile.email }}</td>
-			      </tr>
-			      <tr>
-			        <td>Age</td>
-			        <td class="view">{{ custom_profile.age }}</td>
-                    <td class="edit hidden">{{ custom_update.age }}</td>
-			      </tr>
-			      <tr>
-			        <td>Address</td>
-			        <td class="view">{{ custom_profile.address }}</td>
-                    <td class="edit hidden">{{ custom_update.address }}</td>
-			      </tr>
-			      <tr>
-			        <td>Phone Number</td>
-			        <td class="view">{{ custom_profile.phone_number }}</td>
-                    <td class="edit hidden">{{ custom_update.phone_number }}</td>
-			      </tr>
+    <div class="profile container-fluid">
+        <form role="form" id="profile-form" action="{% url 'circleofcare:user_profile' %}" method="post">
+            {% csrf_token %}
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 arrows">
+                <a class="profile-edit-save" id="edit-button" href="javascript:void(0)"><i class="fa fa-edit"></i><span> Edit </span></a>
+            </div>
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                <h1 id="center"><i class="fa fa-user fa-5x"></i></h1>
+                <h2>{{ user_profile.get_full_name }}</h2>
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 ">
+                <table class="table" id="special">
+                    <thead>
+                    <tr>
+                        <th colspan="2">Personal Details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{ user_profile.email }}</td>
+                    </tr>
+                    <tr>
+                        <td>Age</td>
+                        <td class="view">{{ custom_profile.age }}</td>
+                        <td class="edit hidden">{{ custom_update.age }}</td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td class="view">{{ custom_profile.address }}</td>
+                        <td class="edit hidden">{{ custom_update.address }}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number</td>
+                        <td class="view">{{ custom_profile.phone_number }}</td>
+                        <td class="edit hidden">{{ custom_update.phone_number }}</td>
+                    </tr>
 
-			      <tr>
-			        <td>Diagnosis</td>
-			        <td class="view">{{ custom_profile.diagnosis }}</td>
-                    <td class="edit hidden">{{ custom_update.diagnosis }}</td>
-			      </tr>
-			    </tbody>
-			  </table>
-		</div>
-		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
-			<table class="table" id="special">
-			    <thead>
-			      <tr>
-			        <th colspan="2">Emergency Contact</th>
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-			        <td>Name</td>
-			        <td class="view">{{ custom_profile.emergency_name }}</td>
-                    <td class="edit hidden">{{ custom_update.emergency_name }}</td>
-			      </tr>
-			      <tr>
-			        <td>Relation</td>
-			        <td class="view">{{ custom_profile.emergency_relationship }}</td>
-                    <td class="edit hidden">{{ custom_update.emergency_relationship }}</td>
-			      </tr>
-			      <tr>
-			        <td>Phone Number</td>
-			        <td class="view">{{ custom_profile.emergency_phone_number }}</td>
-                    <td class="edit hidden">{{ custom_update.emergency_phone_number }}</td>
-			      </tr>
-			      <tr>
-			        <td >Email</td>
-			        <td class="view">{{ custom_profile.emergency_email }}</td>
-                    <td class="edit hidden">{{ custom_update.emergency_email }}</td>
-			      </tr>
-			    </tbody>
-			  </table>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<h3>Medications</h3>
-			<table class="table">
-			    <thead>
-			      <tr>
-			        <th>Name</th>
-					<th>Dosage</th>
-					<th>Instructions</th>
-					<th>Warnings</th>
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-			        <td>teriflunomide (Aubagio)</td>
-			        <td>7 mg</td>
-					<td>AM</td>
-					<td>Don't take if pregnant</td>
-			      </tr>
-			      <tr>
-			        <td>fingolimod (Gilenya)</td>
-			        <td>1.5 mg</td>
-			        <td>Twice a day after a meal</td>
-			        <td>May cause diarrhea</td>
-			      </tr>
-			    </tbody>
-			  </table>
-		</div>
-	</div>
+                    <tr>
+                        <td>Diagnosis</td>
+                        <td class="view">{{ custom_profile.diagnosis }}</td>
+                        <td class="edit hidden">{{ custom_update.diagnosis }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
+                <table class="table" id="special">
+                    <thead>
+                    <tr>
+                        <th colspan="2">Emergency Contact</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td class="view">{{ custom_profile.emergency_name }}</td>
+                        <td class="edit hidden">{{ custom_update.emergency_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Relation</td>
+                        <td class="view">{{ custom_profile.emergency_relationship }}</td>
+                        <td class="edit hidden">{{ custom_update.emergency_relationship }}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number</td>
+                        <td class="view">{{ custom_profile.emergency_phone_number }}</td>
+                        <td class="edit hidden">{{ custom_update.emergency_phone_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td class="view">{{ custom_profile.emergency_email }}</td>
+                        <td class="edit hidden">{{ custom_update.emergency_email }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h3>Medications</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Dosage</th>
+                        <th>Instructions</th>
+                        <th>Warnings</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>teriflunomide (Aubagio)</td>
+                        <td>7 mg</td>
+                        <td>AM</td>
+                        <td>Don't take if pregnant</td>
+                    </tr>
+                    <tr>
+                        <td>fingolimod (Gilenya)</td>
+                        <td>1.5 mg</td>
+                        <td>Twice a day after a meal</td>
+                        <td>May cause diarrhea</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
 {% endblock %}
 
 {% block js_scripts %}

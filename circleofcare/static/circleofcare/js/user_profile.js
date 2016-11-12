@@ -16,6 +16,7 @@ jQuery(document).ready(function () {
     });
 
     $(document).on('click', '#save-button', function () {
+        document.getElementById('profile-form').submit();
         $(this).attr('id', "edit-button");
         $(this).find('span').text(" Edit ");
         $(this).find('i').removeClass('fa-save');

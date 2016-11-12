@@ -85,21 +85,24 @@ def physical_activity_log(request):
 
 @login_required
 def user_profile(request):
+    main_profile = request.user
+    custom_profile = UserProfile.objects.get(user=request.user)
     if request.method == 'POST':
-        pass
+        custom_update = UserProfileForm(request.POST, instance=custom_profile)
+        if custom_update.is_valid():
+            custom_update.save()
     else:
-        user_profile = request.user
-        custom_profile = UserProfile.objects.get(user=request.user)
-        user_update = CustomUserCreationForm()
-        custom_update = UserProfileForm({'address' : custom_profile.address, 'age' : custom_profile.age,
-                                        'phone_number' : custom_profile.phone_number,
-                                         'diagnosis' : custom_profile.diagnosis,
-                                         'emergency_name' : custom_profile.emergency_name,
-                                         'emergency_email' : custom_profile.emergency_email,
+        custom_update = UserProfileForm({'address': custom_profile.address,
+                                         'age': custom_profile.age,
+                                         'phone_number': custom_profile.phone_number,
+                                         'diagnosis': custom_profile.diagnosis,
+                                         'emergency_name': custom_profile.emergency_name,
+                                         'emergency_email': custom_profile.emergency_email,
                                          'emergency_phone_number': custom_profile.emergency_phone_number,
                                          'emergency_relationship': custom_profile.emergency_relationship})
-    return render(request, 'circleofcare/user_profile.html', {'user_profile': user_profile, 'custom_profile': custom_profile,
-                                                              'user_update': user_update, 'custom_update': custom_update})
+    return render(request, 'circleofcare/user_profile.html', {'user_profile': main_profile,
+                                                              'custom_profile': custom_profile,
+                                                              'custom_update': custom_update})
 
 
 @login_required
