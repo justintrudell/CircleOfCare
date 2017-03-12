@@ -6,10 +6,34 @@ from django.core.validators import MaxValueValidator, RegexValidator, EmailValid
 from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
+from abc import ABCMeta, abstractmethod
 
 
-class PhysioSymptom(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, default=-1)
+class D3Queryable:
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def boolean_fields(self):
+        pass
+
+    @staticmethod
+    def produce_symptom_array(query_set):
+        """ Used by d3.js to visualize symptoms """
+        # All items of query_set should have the same length,
+        # so just ensure that the entire set and the first item are valid
+        if not query_set or not query_set[0]:
+            return [0]
+        # Create array based on amount of boolean fields for this model
+        arr = [0] * len(query_set[0].boolean_fields())
+        for item in query_set:
+            fields = item.boolean_fields()
+            for i in range(len(fields)):
+                arr[i] += 1 if fields[i] else 0
+        return arr
+
+
+class PhysioSymptom(models.Model, D3Queryable):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     tingling = models.BooleanField(blank=True)
     muscle_spasms = models.BooleanField(blank=True)
     dizziness = models.BooleanField(blank=True)
@@ -29,9 +53,14 @@ class PhysioSymptom(models.Model):
     def __str__(self):
         return self.name
 
+    def boolean_fields(self):
+        return [self.tingling, self.muscle_spasms, self.dizziness, self.muscle_weakness,
+                self.blurry_vision, self.bladder_dysfunc, self.bowel_dysfunc, self.pain_bool,
+                self.depression, self.lack_interest]
 
-class FunctionalSymptom(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, default=-1)
+
+class FunctionalSymptom(models.Model, D3Queryable):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     changing_clothes = models.BooleanField(blank=True)
     out_of_bed = models.BooleanField(blank=True)
     climbing_stairs = models.BooleanField(blank=True)
@@ -50,12 +79,17 @@ class FunctionalSymptom(models.Model):
     def __str__(self):
         return self.name
 
+    def boolean_fields(self):
+        return [self.changing_clothes, self.out_of_bed, self.climbing_stairs, self.cooking,
+                self.driving, self.walking, self.writing, self.learning_new_info,
+                self.remembering_tasks, self.loss_for_words, self.concentrating]
 
-class PhysicalActivity(models.Model):
+
+class PhysicalActivity(models.Model, D3Queryable):
     DURATION_CHOICES = (('0', 'Less than 15 minutes'), ('1', '15-30 minutes'),
                         ('2', '30-45 minutes'), ('3', '45-60 minutes'),
                         ('4', '60-90 minutes'), ('5', 'More than 90 minutes'))
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, default=-1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     running = models.BooleanField(blank=True)
     walking = models.BooleanField(blank=True)
     tennis = models.BooleanField(blank=True)
@@ -68,6 +102,10 @@ class PhysicalActivity(models.Model):
 
     def __str__(self):
         return self.name
+
+    def boolean_fields(self):
+        return [self.running, self.walking, self.tennis, self.soccer,
+                self.aerobics, self.yoga]
 
 
 class CustomUserManager(BaseUserManager):
@@ -144,7 +182,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    age = models.PositiveIntegerField(validators=[MaxValueValidator(120)], blank=True, default='')
+    age = models.PositiveIntegerField(validators=[MaxValueValidator(120)], blank=True, default=1)
     address = models.CharField(max_length=80, blank=True, default='')
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                  message="Phone number must be entered in the format: '999999999'.")
@@ -157,3 +195,18 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
+
+
+def produce_symptom_array(query_set):
+    """ Used by d3.js to visualize symptoms """
+    # All items of query_set should have the same length,
+    # so just ensure that the entire set and the first item are valid
+    if not query_set or not query_set[0]:
+        return [0]
+    # Create array based on amount of boolean fields for this model
+    arr = [0] * len(query_set[0].boolean_fields())
+    for item in query_set:
+        fields = item.boolean_fields()
+        for i in range(len(fields)):
+            arr[i] += 1 if fields[i] else 0
+    return arr

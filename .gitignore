@@ -3,6 +3,11 @@ FunctionalApps/settings.py
 circleofcare/migrations/
 
 *.idea
+*.pyc
+
+bootstrap*
+awesome-bootstrap*
+font-awesome*
 
 .DS_Store
 */.DS_Store

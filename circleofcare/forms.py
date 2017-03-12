@@ -1,5 +1,4 @@
 from django import forms
-from FunctionalApps import settings
 from django.forms import ModelForm, Textarea
 from circleofcare.models import PhysioSymptom, FunctionalSymptom, PhysicalActivity, UserProfile, CustomUser
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
@@ -56,6 +55,7 @@ class UserProfileForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
+
 
 class CustomUserCreationForm(UserCreationForm):
     """

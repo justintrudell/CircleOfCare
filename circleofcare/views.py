@@ -1,16 +1,22 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
+from django.utils import timezone
+from datetime import datetime, timedelta
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from circleofcare.models import UserProfile
-from itertools import chain
+from circleofcare.models import UserProfile, FunctionalSymptom, PhysicalActivity, PhysioSymptom
+from django.core.exceptions import ObjectDoesNotExist
+from contextlib import suppress
 
 from .forms import PhysioForm, FunctionalForm, PhysicalActivityForm, UserProfileForm,CustomUserCreationForm
 
+# Used to properly handle next page requests when a user navigates to a page without having logged in
+next_addr = ""
 
-@login_required(redirect_field_name=None)
+
+@login_required
 def physiological_log(request):
     # If this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -34,12 +40,12 @@ def physiological_log(request):
     return render(request, 'circleofcare/physiological_log.html', {'form': form})
 
 
-@login_required(redirect_field_name=None)
+@login_required
 def index(request):
     return render(request, 'circleofcare/cc_index.html')
 
 
-@login_required(redirect_field_name=None)
+@login_required
 def functional_log(request):
     # If this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -47,7 +53,9 @@ def functional_log(request):
         form = FunctionalForm(request.POST)
         # Check whether it's valid - if not, return them without success message
         if form.is_valid():
-            form.save()
+            result = form.save(commit=False)
+            result.user = request.user
+            result.save()
             messages.success(request, "Your information was successfully saved. Thanks!")
         else:
             # TODO: Handle this error gracefully
@@ -69,7 +77,9 @@ def physical_activity_log(request):
         form = PhysicalActivityForm(request.POST)
         # Check whether it's valid - if not, return them without success message
         if form.is_valid():
-            form.save()
+            result = form.save(commit=False)
+            result.user = request.user
+            result.save()
             messages.success(request, "Your information was successfully saved. Thanks!")
         else:
             # TODO: Handle this error gracefully
@@ -91,6 +101,9 @@ def user_profile(request):
         custom_update = UserProfileForm(request.POST, instance=custom_profile)
         if custom_update.is_valid():
             custom_update.save()
+        return HttpResponseRedirect(reverse('circleofcare:user_profile'), {'user_profile': main_profile,
+                                                                           'custom_profile': custom_profile,
+                                                                           'custom_update': custom_update})
     else:
         custom_update = UserProfileForm({'address': custom_profile.address,
                                          'age': custom_profile.age,
@@ -107,7 +120,19 @@ def user_profile(request):
 
 @login_required
 def user_summary(request):
-    return render(request, 'circleofcare/cc_index.html')
+    user = request.user
+
+    if request.method == 'GET':
+        with suppress(ObjectDoesNotExist):
+            time_diff = retrieve_days_delta(14)
+            physio_symptoms = PhysioSymptom.objects.filter(user=user, date__gt=time_diff)
+            functional_symptoms = FunctionalSymptom.objects.filter(user=user, date__gt=time_diff)
+            physical_activity = PhysicalActivity.objects.filter(user=user, date__gt=time_diff)
+
+        physio_values = PhysioSymptom.produce_symptom_array(physio_symptoms)
+        functional_values = FunctionalSymptom.produce_symptom_array(functional_symptoms)
+        physical_values = PhysicalActivity.produce_symptom_array(physical_activity)
+    return render(request, 'circleofcare/user_summary.html')
 
 
 @login_required(redirect_field_name=None)
@@ -153,6 +178,7 @@ def register(request):
 
 
 def user_login(request):
+    global next_addr
     if request.method == 'POST':
 
         email = request.POST.get('email')
@@ -164,7 +190,10 @@ def user_login(request):
             # If the account is not active it's been disabled
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse('circleofcare:index'))
+                if next_addr:
+                    return HttpResponseRedirect(next_addr)
+                else:
+                    return HttpResponseRedirect(reverse('circleofcare:index'))
             else:
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your account is disabled.")
@@ -173,5 +202,12 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
 
     else:
+        if 'next' in request.GET:
+            next_addr = request.GET['next']
+        else:
+            next_addr = ""
         return render(request, 'circleofcare/login.html')
 
+
+def retrieve_days_delta(days):
+    return timezone.now() - timedelta(days=days)

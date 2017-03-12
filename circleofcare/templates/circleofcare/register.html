@@ -104,6 +104,12 @@
     jQuery(document).ready(function () {
 
         $.backstretch("{% static 'circleofcare/images/1.jpg' %}");
+
+        // Remove the default "1" in the age fieldd
+        if($("#id_age").val() == 1) {
+            $("#id_age").val('')
+        }
+
     });
 </script>
 
