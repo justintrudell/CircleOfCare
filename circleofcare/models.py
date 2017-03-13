@@ -7,29 +7,31 @@ from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
 from abc import ABCMeta, abstractmethod
+from collections import defaultdict
 
 
 class D3Queryable:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def boolean_fields(self):
+    def summary_boolean_fields(self):
         pass
 
     @staticmethod
-    def produce_symptom_array(query_set):
+    def produce_symptom_dictionary(query_set):
         """ Used by d3.js to visualize symptoms """
         # All items of query_set should have the same length,
         # so just ensure that the entire set and the first item are valid
         if not query_set or not query_set[0]:
-            return [0]
-        # Create array based on amount of boolean fields for this model
-        arr = [0] * len(query_set[0].boolean_fields())
+            return {}
+        # Create dictionary based on amount of boolean fields for this model
+        data_dict = defaultdict(int)
         for item in query_set:
-            fields = item.boolean_fields()
+            fields = item.summary_boolean_fields()
             for i in range(len(fields)):
-                arr[i] += 1 if fields[i] else 0
-        return arr
+                name, val = fields[i]
+                data_dict[name] += 1 if val else 0
+        return [({"Category": k, "Frequency": v}) for k, v in data_dict.items()]
 
 
 class PhysioSymptom(models.Model, D3Queryable):
@@ -53,10 +55,17 @@ class PhysioSymptom(models.Model, D3Queryable):
     def __str__(self):
         return self.name
 
-    def boolean_fields(self):
-        return [self.tingling, self.muscle_spasms, self.dizziness, self.muscle_weakness,
-                self.blurry_vision, self.bladder_dysfunc, self.bowel_dysfunc, self.pain_bool,
-                self.depression, self.lack_interest]
+    def summary_boolean_fields(self):
+        return [(PhysioSymptom._meta.get_field("tingling").verbose_name.title(), self.tingling),
+                (PhysioSymptom._meta.get_field("muscle_spasms").verbose_name.title(), self.muscle_spasms),
+                (PhysioSymptom._meta.get_field("dizziness").verbose_name.title(), self.dizziness),
+                (PhysioSymptom._meta.get_field("muscle_weakness").verbose_name.title(), self.muscle_weakness),
+                (PhysioSymptom._meta.get_field("blurry_vision").verbose_name.title(), self.blurry_vision),
+                (PhysioSymptom._meta.get_field("bladder_dysfunc").verbose_name.title(), self.bladder_dysfunc),
+                (PhysioSymptom._meta.get_field("bowel_dysfunc").verbose_name.title(), self.bowel_dysfunc),
+                (PhysioSymptom._meta.get_field("pain_bool").verbose_name.title(), self.pain_bool),
+                (PhysioSymptom._meta.get_field("depression").verbose_name.title(), self.depression),
+                (PhysioSymptom._meta.get_field("lack_interest").verbose_name.title(), self.lack_interest)]
 
 
 class FunctionalSymptom(models.Model, D3Queryable):
@@ -79,10 +88,18 @@ class FunctionalSymptom(models.Model, D3Queryable):
     def __str__(self):
         return self.name
 
-    def boolean_fields(self):
-        return [self.changing_clothes, self.out_of_bed, self.climbing_stairs, self.cooking,
-                self.driving, self.walking, self.writing, self.learning_new_info,
-                self.remembering_tasks, self.loss_for_words, self.concentrating]
+    def summary_boolean_fields(self):
+        return [(FunctionalSymptom._meta.get_field("changing_clothes").verbose_name.title(), self.changing_clothes),
+                (FunctionalSymptom._meta.get_field("out_of_bed").verbose_name.title(), self.out_of_bed),
+                (FunctionalSymptom._meta.get_field("climbing_stairs").verbose_name.title(), self.climbing_stairs),
+                (FunctionalSymptom._meta.get_field("cooking").verbose_name.title(), self.cooking),
+                (FunctionalSymptom._meta.get_field("driving").verbose_name.title(), self.driving),
+                (FunctionalSymptom._meta.get_field("walking").verbose_name.title(), self.walking),
+                (FunctionalSymptom._meta.get_field("writing").verbose_name.title(), self.writing),
+                (FunctionalSymptom._meta.get_field("learning_new_info").verbose_name.title(), self.learning_new_info),
+                (FunctionalSymptom._meta.get_field("remembering_tasks").verbose_name.title(), self.remembering_tasks),
+                (FunctionalSymptom._meta.get_field("loss_for_words").verbose_name.title(), self.loss_for_words),
+                (FunctionalSymptom._meta.get_field("concentrating").verbose_name.title(), self.concentrating)]
 
 
 class PhysicalActivity(models.Model, D3Queryable):
@@ -103,9 +120,13 @@ class PhysicalActivity(models.Model, D3Queryable):
     def __str__(self):
         return self.name
 
-    def boolean_fields(self):
-        return [self.running, self.walking, self.tennis, self.soccer,
-                self.aerobics, self.yoga]
+    def summary_boolean_fields(self):
+        return [(PhysicalActivity._meta.get_field("running").verbose_name.title(), self.running),
+                (PhysicalActivity._meta.get_field("walking").verbose_name.title(), self.walking),
+                (PhysicalActivity._meta.get_field("tennis").verbose_name.title(), self.tennis),
+                (PhysicalActivity._meta.get_field("soccer").verbose_name.title(), self.soccer),
+                (PhysicalActivity._meta.get_field("aerobics").verbose_name.title(), self.aerobics),
+                (PhysicalActivity._meta.get_field("yoga").verbose_name.title(), self.yoga)]
 
 
 class CustomUserManager(BaseUserManager):
@@ -195,18 +216,3 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
-
-
-def produce_symptom_array(query_set):
-    """ Used by d3.js to visualize symptoms """
-    # All items of query_set should have the same length,
-    # so just ensure that the entire set and the first item are valid
-    if not query_set or not query_set[0]:
-        return [0]
-    # Create array based on amount of boolean fields for this model
-    arr = [0] * len(query_set[0].boolean_fields())
-    for item in query_set:
-        fields = item.boolean_fields()
-        for i in range(len(fields)):
-            arr[i] += 1 if fields[i] else 0
-    return arr

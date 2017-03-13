@@ -2,13 +2,14 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from datetime import datetime, timedelta
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from circleofcare.models import UserProfile, FunctionalSymptom, PhysicalActivity, PhysioSymptom
 from django.core.exceptions import ObjectDoesNotExist
 from contextlib import suppress
+import json
 
 from .forms import PhysioForm, FunctionalForm, PhysicalActivityForm, UserProfileForm,CustomUserCreationForm
 
@@ -40,7 +41,7 @@ def physiological_log(request):
     return render(request, 'circleofcare/physiological_log.html', {'form': form})
 
 
-@login_required
+@login_required(redirect_field_name=None)
 def index(request):
     return render(request, 'circleofcare/cc_index.html')
 
@@ -122,17 +123,46 @@ def user_profile(request):
 def user_summary(request):
     user = request.user
 
+    return render(request, 'circleofcare/user_summary.html')
+
+
+@login_required(redirect_field_name=None)
+def physiological_data(request):
+    user = request.user
+    physio_values = None
+
     if request.method == 'GET':
         with suppress(ObjectDoesNotExist):
-            time_diff = retrieve_days_delta(14)
-            physio_symptoms = PhysioSymptom.objects.filter(user=user, date__gt=time_diff)
-            functional_symptoms = FunctionalSymptom.objects.filter(user=user, date__gt=time_diff)
-            physical_activity = PhysicalActivity.objects.filter(user=user, date__gt=time_diff)
+            physio_symptoms = PhysioSymptom.objects.filter(user=user, date__gt=retrieve_days_delta(14))
+        physio_values = PhysioSymptom.produce_symptom_dictionary(physio_symptoms)
 
-        physio_values = PhysioSymptom.produce_symptom_array(physio_symptoms)
-        functional_values = FunctionalSymptom.produce_symptom_array(functional_symptoms)
-        physical_values = PhysicalActivity.produce_symptom_array(physical_activity)
-    return render(request, 'circleofcare/user_summary.html')
+    return JsonResponse(physio_values, safe=False)
+
+
+@login_required(redirect_field_name=None)
+def functional_data(request):
+    user = request.user
+    functional_values = None
+
+    if request.method == 'GET':
+        with suppress(ObjectDoesNotExist):
+            functional_symptoms = FunctionalSymptom.objects.filter(user=user, date__gt=retrieve_days_delta(14))
+        functional_values = FunctionalSymptom.produce_symptom_dictionary(functional_symptoms)
+
+    return JsonResponse(functional_values, safe=False)
+
+
+@login_required(redirect_field_name=None)
+def physical_data(request):
+    user = request.user
+    physical_values = None
+
+    if request.method == 'GET':
+        with suppress(ObjectDoesNotExist):
+            physical_symptoms = PhysicalActivity.objects.filter(user=user, date__gt=retrieve_days_delta(14))
+        physical_values = PhysicalActivity.produce_symptom_dictionary(physical_symptoms)
+
+    return JsonResponse(physical_values, safe=False)
 
 
 @login_required(redirect_field_name=None)
