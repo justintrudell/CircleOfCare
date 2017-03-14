@@ -2,15 +2,6 @@
 {% load static %}
 
 {% block header_title %}Circle Of Care | Home{% endblock %}
-{% block header_links %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
-    <link rel="stylesheet" href="{% static 'circleofcare/css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'circleofcare/css/responsive.css' %}">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
-{% endblock %}
 
 {% block home_href %}javascript:void(0){% endblock %}
 {% block home_tab %}active{% endblock %}
@@ -57,10 +48,6 @@
 {% endblock %}
 
 {% block js_scripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="{% static 'circleofcare/js/bootstrap.min.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
-
     {% if messages %}
         {% for message in messages %}
             <script>

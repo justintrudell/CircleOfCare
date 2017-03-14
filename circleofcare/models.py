@@ -31,7 +31,7 @@ class D3Queryable:
             for i in range(len(fields)):
                 name, val = fields[i]
                 data_dict[name] += 1 if val else 0
-        return [({"Category": k, "Frequency": v}) for k, v in data_dict.items()]
+        return [({"Category": k, "Frequency": v}) for k, v in sorted(data_dict.items())]
 
 
 class PhysioSymptom(models.Model, D3Queryable):
